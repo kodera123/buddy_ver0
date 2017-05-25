@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Buddy Sheets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start at</th>
+      <th>Period</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @buddy_sheets.each do |buddy_sheet| %>
+      <tr>
+        <td><%= buddy_sheet.start_at %></td>
+        <td><%= buddy_sheet.period %></td>
+        <td><%= link_to 'Show', buddy_sheet %></td>
+        <td><%= link_to 'Edit', edit_buddy_sheet_path(buddy_sheet) %></td>
+        <td><%= link_to 'Destroy', buddy_sheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Buddy Sheet', new_buddy_sheet_path %>

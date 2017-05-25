@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start at:</strong>
+  <%= @buddy_sheet.start_at %>
+</p>
+
+<p>
+  <strong>Period:</strong>
+  <%= @buddy_sheet.period %>
+</p>
+
+<%= link_to 'Edit', edit_buddy_sheet_path(@buddy_sheet) %> |
+<%= link_to 'Back', buddy_sheets_path %>

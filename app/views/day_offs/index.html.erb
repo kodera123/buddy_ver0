@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Day Offs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Off plan</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @day_offs.each do |day_off| %>
+      <tr>
+        <td><%= day_off.off_plan %></td>
+        <td><%= link_to 'Show', day_off %></td>
+        <td><%= link_to 'Edit', edit_day_off_path(day_off) %></td>
+        <td><%= link_to 'Destroy', day_off, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Day Off', new_day_off_path %>
