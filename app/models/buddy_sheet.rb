@@ -1,5 +1,6 @@
 class BuddySheet < ApplicationRecord
   belongs_to :user
+  has_many :buddy_study_logs
   
   def dayoff_diff
     total_diff = 0
@@ -21,4 +22,14 @@ class BuddySheet < ApplicationRecord
     DayOff.pluck(:off_plan)
   end
 
+  def create_buddy_study_logs
+    total_period.each do |day|
+      if dayoffs.include?(day)
+        next
+      end
+      buddy_study_logs.create(schedule_date: day, result_date: day)
+    end    
+  end
+
 end
+

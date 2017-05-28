@@ -1,16 +1,9 @@
 <h1>User#show</h1>
-バディシート出す
- <% day_count = 0 %>
-<% @user.buddy_sheet.total_period.each do |day| %>
-  <% if @dayoffs.include?(day) %>
-    <% next %>
-  <% end %>
-  <div><%= day %></div>
-  <% day_count += 1 %>
-<% end %>
-合計<%= day_count %>日
 
-<%= link_to "バディシート編集", edit_buddy_sheet_path(@user.buddy_sheet) %>
-<%= link_to "バディシート作る", new_buddy_sheet_path %>
+<% if @user.buddy_sheet.present? %>
+  <%= link_to "バディシート編集", edit_user_buddy_sheet_path(user_id: @user.id, id: @user.buddy_sheet.id) %>
+<% end %>
+
+<%= link_to "バディシート作る", new_user_buddy_sheet_path(@user) %>
 
 
