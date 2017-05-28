@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :users, only:[:index, :show]
-  resources :day_offs
-  resources :buddy_sheets
-  get '/users' => 'users#index' 
+  resources :users, only:[:index, :show] do
+    resources :buddy_sheets do
+      resources :buddy_study_logs, only: [:update]
+    end
+  end
 
-  get '/users/:id' => 'users#show'
+  resources :day_offs
+  
 
   root 'users#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

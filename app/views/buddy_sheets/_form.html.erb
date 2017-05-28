@@ -1,4 +1,4 @@
-<%= form_for(buddy_sheet) do |f| %>
+<%= form_for(buddy_sheet, url: user_buddy_sheets_path(@user)) do |f| %>
   <% if buddy_sheet.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(buddy_sheet.errors.count, "error") %> prohibited this buddy_sheet from being saved:</h2>
@@ -12,13 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :start_at %>
+    <%= f.label :start_at, "開始日" %>
     <%= f.date_select :start_at %>
   </div>
 
   <div class="field">
-    <%= f.label :period %>
+    <%= f.label :period, "期間" %>
     <%= f.number_field :period %>
+  </div>
+
+  <div class="field">
+    <%= f.label :long_target, "長期目標" %>
+    <%= f.text_area :long_target %>
+  </div>
+  <div class="field">
+    <%= f.label :short_target, "短期目標" %>
+    <%= f.text_area :short_target %>
   </div>
 
   <div class="actions">

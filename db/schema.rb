@@ -10,14 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506082133) do
+ActiveRecord::Schema.define(version: 20170525123908) do
 
   create_table "buddy_sheets", force: :cascade do |t|
-    t.date     "start_at",   null: false
-    t.integer  "period",     null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.date     "start_at",                  null: false
+    t.integer  "period",                    null: false
+    t.integer  "user_id",                   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "long_target",  default: "", null: false
+    t.string   "short_target", default: "", null: false
+  end
+
+  create_table "buddy_study_logs", force: :cascade do |t|
+    t.integer  "buddy_sheet_id",                null: false
+    t.date     "schedule_date"
+    t.integer  "schedule_time"
+    t.string   "schedule_place"
+    t.string   "schedule_content"
+    t.date     "result_date"
+    t.integer  "result_time"
+    t.string   "result_place"
+    t.string   "result_content"
+    t.text     "thought"
+    t.text     "trainer_comment",  default: "", null: false
+    t.integer  "trainer_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "day_offs", force: :cascade do |t|

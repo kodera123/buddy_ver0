@@ -1,14 +1,141 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Start at:</strong>
-  <%= @buddy_sheet.start_at %>
-</p>
+<h1><%= @user.email %>のバディシート</h1>
 
-<p>
-  <strong>Period:</strong>
-  <%= @buddy_sheet.period %>
-</p>
 
-<%= link_to 'Edit', edit_buddy_sheet_path(@buddy_sheet) %> |
-<%= link_to 'Back', buddy_sheets_path %>
+<div class="target-container">
+  <h2>目標</h2>
+  <div class="target-content">
+    <div class="long-target">
+      長期： <%= @buddy_sheet.long_target %>
+    </div>
+    <div class="short-target">
+      短期： <%= @buddy_sheet.short_target %>
+    </div>
+  </div>
+</div>
+
+<% 
+  num = 0
+  time = [0]
+  24.times { 
+    num += 0.5
+    time << num
+   }
+   study_places = %w(教室 オンライン)
+   study_contents = %w(Webサイト制作Lv1 Webサイト制作Lv2 Webサイト制作Lv3 Webサイト制作Lv4 WebアプリケーションLv1 WebアプリケーションLv2 WebアプリケーションLv3 WebアプリケーションLv4)
+ %>
+
+<table id="buddy-study-table">
+  <thead class="">
+    <tr>
+      <th scope="cols" rowspan="2">学習期間</th>
+      <th scope="cols" colspan="4">予定</th>
+      <th scope="cols" rowspan="2"></th>
+      <th scope="cols" colspan="4">実績</th>
+      <th scope="cols" rowspan="2">感想</th>
+      <th scope="cols" rowspan="2"></th>
+      <th scope="cols" rowspan="2">コメント</th>
+      <th scope="cols" rowspan="2"></th>
+    </tr>
+    <tr>
+      <th scope="cols">日付</th>
+      <th scope="cols">時間</th>
+      <th scope="cols">場所</th>
+      <th scope="cols">内容</th>
+
+      <th scope="cols">日付</th>
+      <th scope="cols">時間</th>
+      <th scope="cols">場所</th>     <th scope="cols">内容</th>
+
+    </tr>
+  </thead>
+  <tbody class="">
+    <% @buddy_sheet.buddy_study_logs.each_with_index do |log, i| %>
+       <tr class="study-log">
+        <!-- 学習期間 -->
+        <th scope="cols"><%= i + 1 %>日目</th>
+        <!-- 予定 -->
+        <th scope="cols"><%= log.schedule_date.strftime("%m / %d") %></th>
+        <th scope="cols" class="schedule_element"><%= log.schedule_time %></th>
+        <th scope="cols" class="schedule_element"><%= log.schedule_place %></th>
+        <th scope="cols" class="schedule_element"><%= log.schedule_content %></th>
+        <!-- 予定編集フォーム -->
+        <%= form_for(log, url: user_buddy_sheet_buddy_study_log_path(user_id: @user, buddy_sheet_id: @buddy_sheet, id: log)) do |f| %>
+          <th scope="cols" class="schedule_edit_form"><%= f.select :schedule_time, time %></th>
+          <th scope="cols" class="schedule_edit_form"><%= f.select :schedule_place, study_places %></th>
+          <th scope="cols" class="schedule_edit_form"><%= f.select :schedule_content, study_contents %></th>
+          <th scope="cols" class="schedule_edit_form"><%= f.submit "更新", class: "edit_btn" %></th>
+        <% end %>
+        <th class="study_schedule_edit_btn schedule_element"><div class="edit_btn">編集</div></th>
+        <!-- 実績 -->
+        <th scope="cols"><%= log.result_date.strftime("%m / %d") %></th>
+        <th scope="cols" class="result_element"><%= log.result_time %></th>
+        <th scope="cols" class="result_element"><%= log.result_place %></th>
+        <th scope="cols" class="result_element"><%= log.result_content %></th>
+        <!-- 実績編集フォーム -->
+        <%= form_for(log, url: user_buddy_sheet_buddy_study_log_path(user_id: @user, buddy_sheet_id: @buddy_sheet, id: log)) do |f| %>
+          <th scope="cols" class="result_edit_form"><%= f.select :result_time, time %></th>
+          <th scope="cols" class="result_edit_form"><%= f.select :result_place, study_places %></th>
+          <th scope="cols" class="result_edit_form"><%= f.select :result_content, study_contents %></th>
+          <th class="result_edit_form"><%= f.text_area :thought %></th>
+          <th class="result_edit_form "><%= f.submit "更新", class: "edit_btn" %></th>
+
+        <% end %>
+        <!-- 感想 -->
+        <th scope="cols" width="150" class="result_element"><%= log.thought %></th>
+        <th class="study_result_edit_btn result_element"><div class="edit_btn">編集</div></th>
+        <!-- コメント -->
+        <th scope="cols" width="150" class="comment_element"><%= log.trainer_comment %></th>
+        <th class="comment_edit_btn comment_element"><div class="edit_btn">コメント</div></th>
+        <!-- コメントフォーム -->
+        <%= form_for(log, url: user_buddy_sheet_buddy_study_log_path(user_id: @user, buddy_sheet_id: @buddy_sheet, id: log)) do |f| %>
+          <th class="comment_edit_form"><%= f.text_area :trainer_comment %></th>
+          <th class="comment_edit_form"><%= f.submit "コメント", class: "edit_btn" %> <div class="comment_edit_btn edit_btn">-</div></th>
+        <% end %>
+      </tr>
+    <% end %>
+   
+  </tbody>
+</table>
+
+<script>
+  $(".study_schedule_edit_btn").click(function(){
+    var schedule_element = $(this).parents(".study-log").find(".schedule_element");
+    var schedule_edit_form = $(this).parents(".study-log").find(".schedule_edit_form");
+    // console.log(schedule_edit_form);
+    if (schedule_element.is(':visible')) {
+      schedule_element.hide();
+      schedule_edit_form.show();
+    } else {
+      schedule_element.show();
+      schedule_edit_form.hide();
+    }
+  });
+
+  $(".study_result_edit_btn").click(function(){
+    var result_element = $(this).parents(".study-log").find(".result_element");
+    var result_edit_form = $(this).parents(".study-log").find(".result_edit_form");
+    // console.log(schedule_edit_form);
+    if (result_element.is(':visible')) {
+      result_element.hide();
+      result_edit_form.show();
+    } else {
+      result_element.show();
+      result_edit_form.hide();
+    }
+  });
+
+  $(".comment_edit_btn").click(function(){
+    var comment_element = $(this).parents(".study-log").find(".comment_element");
+    var comment_edit_form = $(this).parents(".study-log").find(".comment_edit_form")
+    if (comment_element.is(':visible')) {
+      comment_element.hide();
+      comment_edit_form.show();
+    } else {
+      comment_element.show();
+      comment_edit_form.hide();
+    }
+  });
+</script>
+

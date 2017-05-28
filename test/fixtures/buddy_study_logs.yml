@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buddy_sheet_id: 1
+  schedule_date: 2017-05-25
+  schedule_time: 1
+  schedule_place: MyString
+  result_date: 2017-05-25
+  result_time: 1
+  result_place: MyString
+  trainer_comment: MyText
+  trainer_id: 1
+
+two:
+  buddy_sheet_id: 1
+  schedule_date: 2017-05-25
+  schedule_time: 1
+  schedule_place: MyString
+  result_date: 2017-05-25
+  result_time: 1
+  result_place: MyString
+  trainer_comment: MyText
+  trainer_id: 1
